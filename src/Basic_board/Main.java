@@ -15,7 +15,7 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		int lastArticleId = 0;
-		String title, content;
+		
 		
 		List<Article> articles = new ArrayList<>();
 		
@@ -23,7 +23,7 @@ public class Main {
 			
 			
 			System.out.printf("명령어 ) ");
-			String command = sc.nextLine();
+			String command = sc.nextLine().trim();
 			
 			if(command.length() == 0) {
 				System.out.println("명령어를 입력해주세요");
@@ -40,11 +40,26 @@ public class Main {
 					continue;
 				}
 				else {
-					System.out.println("게시글이 있습니다.");
+					System.out.println("번호  /  제목");
+					for(int i = articles.size() - 1; i >= 0; i--) {
+						Article article = articles.get(i);
+						
+						System.out.printf("%d   /  %s\n", 
+								article.id, 
+								article.title );
+					}
+//					for(int i = 0; i <articles.size(); i++) {
+//						Article article = articles.get(i);
+//						System.out.printf("%d   /  %s\n", 
+//								article.id, 
+//								article.title );
+//					}
+
 				}
 			}
 			else if(command.equals("article write")) {
 				
+				String title, content;
 				int id = lastArticleId + 1;
 				System.out.printf("제목 : ");
 				title = sc.nextLine();
