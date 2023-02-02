@@ -12,13 +12,40 @@ public class Main {
 		System.out.println("==프로그램 시작==");
 		
 		Scanner sc = new Scanner(System.in);
+		int num = 0;
 		while(true) {
 			System.out.printf("명령어 ) ");
 			String command = sc.nextLine();
 			
+			if(command.length() == 0) {
+				System.out.println("명령어를 입력해주세요");
+				continue;
+			}
 			if(command.equals("system exit")) {
 				break;
 			}
+			
+			if(command.equals("article list")) {
+				if(num == 0) {
+					System.out.println("게시글이 없습니다.");
+				}
+				else {
+					System.out.printf("현재 %d개의 게시물이 있습니다.\n", num);
+				}
+			}
+			else if(command.equals("article write")) {
+				String title, content;
+				System.out.printf("제목 : ");
+				title = sc.nextLine();
+				System.out.printf("내용 : ");
+				content = sc.nextLine();
+				num++;
+				System.out.printf("%d번글이 생성되었습니다.\n", num);
+			}
+			else {
+				System.out.println("존재하지 않는 명령어 입니다.");
+			}
+
 		}
 		
 		System.out.println("==프로그램 끝==");
