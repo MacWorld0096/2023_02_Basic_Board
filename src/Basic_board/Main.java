@@ -39,24 +39,23 @@ public class Main {
 					System.out.println("게시글이 없습니다.");
 					continue;
 				}
-				else {
-					System.out.println("번호  /  제목");
-					for(int i = articles.size() - 1; i >= 0; i--) {
-						Article article = articles.get(i);
-						
+				System.out.println("번호  /  제목");
+				String tempTitle = null;
+				for(int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i);
+					if(article.title.length() > 4) {
+						tempTitle = article.title.substring(0, 4);
 						System.out.printf("%d   /  %s\n", 
 								article.id, 
-								article.title );
+								tempTitle + "..." );
+						continue;
 					}
-//					for(int i = 0; i <articles.size(); i++) {
-//						Article article = articles.get(i);
-//						System.out.printf("%d   /  %s\n", 
-//								article.id, 
-//								article.title );
-//					}
-
+					System.out.printf("%d   /  %s\n", 
+							article.id, 
+							article.title );
 				}
 			}
+			
 			else if(command.equals("article write")) {
 				
 				String title, content;
