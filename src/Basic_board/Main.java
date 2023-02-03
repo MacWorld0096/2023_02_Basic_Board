@@ -1,6 +1,8 @@
 package Basic_board;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -59,13 +61,20 @@ public class Main {
 			else if(command.equals("article write")) {
 				
 				String title, content;
+				//현재 날짜 시간 String
+				SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+				Date date = new Date(); //System.currentTimeMillis()
+				String regDate = formatter.format(date);
+				// 따로 class를 만들어서 static 메서드로써 가져와서 사용 할 수 있다. -> 클래스 이름.메소드이름();
+				// /** ~*/를 하면 설명을 적을수 있다.
 				int id = lastArticleId + 1;
 				System.out.printf("제목 : ");
 				title = sc.nextLine();
 				System.out.printf("내용 : ");
 				content = sc.nextLine();
 				
-				Article article = new Article(id,title,content);
+				
+				Article article = new Article(id,title,content,regDate);
 				articles.add(article);
 				
 				
@@ -97,17 +106,12 @@ public class Main {
 				}
 				System.out.printf(id + "번 글은 존재합니다.");
 				System.out.printf("번호 : %d\n", foundArticle.id);
-				System.out.printf("날짜 : 2023-12-12 12:12:12\n");
+				System.out.printf("날짜 : %s\n", foundArticle.regDate);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.content);
-				
-				
-				
-				
-				
-				
-				
+
 			}
+
 			
 			else {
 				System.out.println("존재하지 않는 명령어 입니다.");
@@ -125,11 +129,12 @@ public class Main {
 
 class Article{
 	int id;
-	String title, content;
-	Article(int id, String title, String content) {
+	String title, content,regDate;
+	Article(int id, String title, String content, String regDate) {
 		this.id = id;
 		this.title = title;
 		this.content =content;
+		this.regDate = regDate;
 	}
 	
 }
