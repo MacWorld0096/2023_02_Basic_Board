@@ -40,22 +40,24 @@ public class Main {
 					System.out.println("게시글이 없습니다.");
 					continue;
 				}
-				System.out.println("번호  /  제목  /  조회");
+				System.out.println("   번호   /   제목   /     조회");
 				String tempTitle = null;
 				for(int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
 					if(article.title.length() > 4) {
 						tempTitle = article.title.substring(0, 4);
-						System.out.printf("%d   /  %s\n", 
+						System.out.printf("%5d   /  %4s  /  %5d\n", 
 								article.id, 
-								tempTitle + "..." );
+								tempTitle + "...", 
+								article.hit);
 						continue;
 					}
-					System.out.printf("%d   /  %s\n", 
+					System.out.printf("%5d   /  %4s  /  %5d\n", 
 							article.id, 
-							article.title
-							);
+							article.title,
+							article.hit);
 				}
+				
 			}
 			
 			else if(command.equals("article write")) {
@@ -67,7 +69,7 @@ public class Main {
 				String regDate = formatter.format(date);
 				// 따로 class를 만들어서 static 메서드로써 가져와서 사용 할 수 있다. -> 클래스 이름.메소드이름();
 				// /** ~*/를 하면 설명을 적을수 있다.
-
+				
 				int id = lastArticleId + 1;
 				System.out.printf("제목 : ");
 				title = sc.nextLine();
@@ -105,13 +107,14 @@ public class Main {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					continue;
 				}
+				foundArticle.increasHit();
 				System.out.printf(id + "번 글은 존재합니다.\n");
 				System.out.printf("번호 : %d\n", foundArticle.id);
 				System.out.printf("작성날짜 : %s\n", foundArticle.regDate);
 				System.out.printf("수정날짜 : %s\n", foundArticle.updateregDate);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.content);
-
+				System.out.printf("조회 : %d\n", foundArticle.hit);
 			}
 			else if(command.startsWith("article delete ")) {
 				String[] commandBits = command.split(" ");
@@ -209,14 +212,18 @@ class Article{
 	int id;
 	String title, content,regDate;
 	String updateregDate = "";
+	int hit;
 	Article(int id, String title, String content, String regDate, String updateregDate) {
 		this.id = id;
 		this.title = title;
 		this.content =content;
 		this.regDate = regDate;
 		this.updateregDate = updateregDate;
+		this.hit = 0;
 	}
 	
+	void increasHit() {
+		hit++;
+	}
 }
-
 
