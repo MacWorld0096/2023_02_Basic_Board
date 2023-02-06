@@ -18,7 +18,6 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		int lastArticleId = 0;
 		
-		
 		List<Article> articles = new ArrayList<>();
 		
 		while(true) {
@@ -41,7 +40,7 @@ public class Main {
 					System.out.println("게시글이 없습니다.");
 					continue;
 				}
-				System.out.println("번호  /  제목");
+				System.out.println("번호  /  제목  /  조회");
 				String tempTitle = null;
 				for(int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
@@ -54,7 +53,8 @@ public class Main {
 					}
 					System.out.printf("%d   /  %s\n", 
 							article.id, 
-							article.title );
+							article.title
+							);
 				}
 			}
 			
@@ -67,6 +67,7 @@ public class Main {
 				String regDate = formatter.format(date);
 				// 따로 class를 만들어서 static 메서드로써 가져와서 사용 할 수 있다. -> 클래스 이름.메소드이름();
 				// /** ~*/를 하면 설명을 적을수 있다.
+
 				int id = lastArticleId + 1;
 				System.out.printf("제목 : ");
 				title = sc.nextLine();
@@ -74,7 +75,7 @@ public class Main {
 				content = sc.nextLine();
 				
 				
-				Article article = new Article(id,title,content,regDate);
+				Article article = new Article(id, title, content, regDate, regDate);
 				articles.add(article);
 				
 				
@@ -104,9 +105,10 @@ public class Main {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					continue;
 				}
-				System.out.printf(id + "번 글은 존재합니다.");
+				System.out.printf(id + "번 글은 존재합니다.\n");
 				System.out.printf("번호 : %d\n", foundArticle.id);
-				System.out.printf("날짜 : %s\n", foundArticle.regDate);
+				System.out.printf("작성날짜 : %s\n", foundArticle.regDate);
+				System.out.printf("수정날짜 : %s\n", foundArticle.updateregDate);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.content);
 
@@ -141,6 +143,51 @@ public class Main {
 				System.out.printf("%d번 게시물이 삭제 되었습니다.\n", id);
 			}
 			
+			
+			else if(command.startsWith("article modify ")) {
+				String[] commandBits = command.split(" ");
+				int id = Integer.parseInt(commandBits[2]);
+				
+				Article foundArticle = null;
+				
+				for(int i = 0; i < articles.size(); i++) {
+					
+					Article article = articles.get(i);
+					if( article.id == id) {
+//						found = true;
+						foundArticle = article;
+						break;
+					}
+				}
+				
+				if(foundArticle == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+					continue;
+				}
+
+				System.out.printf("제목 :");
+				String title = sc.nextLine();
+				System.out.printf("내용 :");
+				String content = sc.nextLine();
+				
+				foundArticle.title = title;
+				foundArticle.content = content;
+				SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+				Date date = new Date(); //System.currentTimeMillis()
+				foundArticle.updateregDate = formatter.format(date);
+				System.out.printf("%d번 글이 수정되었습니다.\n", id);
+				
+				
+//				System.out.printf("제목 : ");
+//				articles.get(foundIndex).title = sc.nextLine();
+//				System.out.printf("내용 : ");
+//				articles.get(foundIndex).content = sc.nextLine();
+//				System.out.printf("%d번 글이 수정되었습니다.\n", id);
+				
+			}
+			
+			
+			
 			else {
 				System.out.println("존재하지 않는 명령어 입니다.");
 			}
@@ -161,11 +208,13 @@ class Article{
 	}
 	int id;
 	String title, content,regDate;
-	Article(int id, String title, String content, String regDate) {
+	String updateregDate = "";
+	Article(int id, String title, String content, String regDate, String updateregDate) {
 		this.id = id;
 		this.title = title;
 		this.content =content;
 		this.regDate = regDate;
+		this.updateregDate = updateregDate;
 	}
 	
 }
