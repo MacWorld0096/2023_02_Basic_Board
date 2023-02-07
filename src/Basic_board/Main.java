@@ -74,7 +74,7 @@ public class Main {
 				// 따로 class를 만들어서 static 메서드로써 가져와서 사용 할 수 있다. -> 클래스 이름.메소드이름();
 				// /** ~*/를 하면 설명을 적을수 있다.
 				
-				int id = lastArticleId + 1;
+				int id = articles.size() + 1;
 				System.out.printf("제목 : ");
 				title = sc.nextLine();
 				System.out.printf("내용 : ");
@@ -209,26 +209,39 @@ public class Main {
 	static void makeTestData() {
 		System.out.println("테스트를 위한 데이터를 생성합니다.");
 		
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+		Date date = new Date(); //System.currentTimeMillis()
+		String regDate = formatter.format(date);
+		
+		articles.add(new Article(1,"제목1", "내용1", regDate, regDate,11));
+		articles.add(new Article(2,"제목3", "내용2", regDate, regDate,22));
+		articles.add(new Article(3,"제목3", "내용3", regDate, regDate,33));
+		
+		
 	}
 
 }
 
 
 class Article{
-	Article(){
-		
-	}
 	int id;
 	String title, content,regDate;
 	String updateregDate = "";
 	int hit;
-	Article(int id, String title, String content, String regDate, String updateregDate) {
+	
+	Article(int id, String title, String content, String regDate, String updateregDate, int hit){
 		this.id = id;
 		this.title = title;
 		this.content =content;
 		this.regDate = regDate;
 		this.updateregDate = updateregDate;
-		this.hit = 0;
+		this.hit = hit;
+	
+	}
+	
+	
+	Article(int id, String title, String content, String regDate, String updateregDate) {
+		this(id, title, content, regDate, updateregDate, 0);
 	}
 	
 	void increasHit() {
